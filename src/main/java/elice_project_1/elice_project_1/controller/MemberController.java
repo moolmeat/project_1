@@ -22,6 +22,6 @@ public class MemberController {
     @PostMapping("/member/join")
     public String join(@ModelAttribute MemberDTO memberDTO) {
         memberService.join(memberDTO);
-        return "home";
+        return "login";
     }
 }
