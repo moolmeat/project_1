@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회원가입</title>
+  <link rel="stylesheet" href="join.css">
+</head>
+<body>
+<div class="container">
+  <h2>회원가입</h2>
+  <form id="registerForm">
+    <div id="registerError" class="error"></div>
+    <input type="text" id="registerID" placeholder="ID" required>
+    <input type="password" id="registerPassword" placeholder="비밀번호" required>
+    <input type="email" id="registerEmail" placeholder="이메일" required>
+    <input type="text" id="registerNickname" placeholder="닉네임" required>
+    <input type="submit" value="가입">
+  </form>
+</div>
+<script src="join.js"></script>
+</body>
+</html>
