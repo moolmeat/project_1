@@ -7,17 +7,22 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "member")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @Column(unique = true)
@@ -31,6 +36,14 @@ public class MemberEntity {
 
     @Column(unique = true)
     private String memberNickname;
+
+    @Builder
+    public MemberEntity(String memberId, String memberPassword, String memberEmail, String memberNickname) {
+        this.memberId = memberId;
+        this.memberPassword = memberPassword;
+        this.memberEmail = memberEmail;
+        this.memberNickname = memberNickname;
+    }
 
     public static MemberEntity toMemberEntity(MemberDTO memberDTO) {
         MemberEntity memberEntity = new MemberEntity();
