@@ -4,6 +4,7 @@ import elice_project_1.elice_project_1.entity.BoardEntity;
 import elice_project_1.elice_project_1.entity.MemberEntity;
 import elice_project_1.elice_project_1.repository.BoardRepository;
 import elice_project_1.elice_project_1.repository.MemberRepository;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -21,19 +22,17 @@ public class BoardService {
     /** 게시글 생성 **/
     @Transactional
     public Long write(String title, String content, Long id) {
-        MemberEntity memberEntity = memberRepository.findOne(id).orElseThrow();
-
-        BoardEntity boardEntity = BoardEntity.createBoard(title, content, memberEntity);
+        Optional<MemberEntity> memberEntity = memberRepository.findById(id);
+        BoardEntity boardEntity = BoardEntity.createBoard(title, content, memberEntity.orElse(null));
         boardRepository.save(boardEntity);
         return boardEntity.getId();
     }
 
     /** 게시글 조회 **/
     public List<BoardEntity> findAll() {
-        return boardRepository.findAll();
+        List<BoardEntity> boardList = boardRepository.findAll();
+        return boardList.isEmpty() ? Collections.emptyList() : boardList; // 빈 목록인 경우 빈 리스트 반환
     }
-
-    /** 게시글 제목으로 조회 **/
 
     /** 게시글 수정 **/
     @Transactional

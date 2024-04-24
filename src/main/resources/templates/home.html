@@ -45,13 +45,15 @@
 <div id="post-box">
   <!-- 여기에 게시글이 표시됩니다 -->
   <h2>게시글</h2>
-  <ul>
+  <ul th:if="${list.empty}">
+    <li>게시글이 없습니다.</li>
+  </ul>
+  <ul th:if="${not list.empty}">
     <!-- postList를 반복하여 각 게시물을 표시 -->
     <li th:each="post : ${list}">
       <span th:text="${post.title}"></span>
     </li>
   </ul>
-
 </div>
 
 <!-- 페이지 선택 버튼 -->

@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import lombok.AccessLevel;
@@ -18,6 +19,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "board")
 public class BoardEntity {
 
     @Id
@@ -32,20 +34,21 @@ public class BoardEntity {
     @JoinColumn(name = "id")
     private MemberEntity memberEntity;
 
+    @Column(name = "register_date")
     private String registerDate;
 
     @Builder
-    public BoardEntity(String title, String content, MemberEntity memberEntity, LocalDateTime registerDate) {
+    public BoardEntity(String title, String content, MemberEntity memberEntity, String registerDate) {
         this.title = title;
         this.content = content;
         this.memberEntity = memberEntity;
-        this.registerDate = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(registerDate);
+        this.registerDate = registerDate;
     }
 
     public static BoardEntity createBoard(String title, String content, MemberEntity memberEntity) {
         return BoardEntity.builder()
             .title(title).content(content).memberEntity(memberEntity)
-            .registerDate(LocalDateTime.now())
+            .registerDate(String.valueOf(LocalDateTime.now()))
             .build();
     }
 
