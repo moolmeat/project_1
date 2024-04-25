@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>게시판 홈</title>
+</head>
+<body>
+
+<!-- 로그인 버튼 -->
+<div id="login-button" style="float: right;">
+  <form th:action="@{/logout}" method="post">
+    <button class="w-100 btn btn-dark btn-lg" type="submint">
+      로그아웃
+    </button>
+  </form>
+</div>
+
+<!-- 로고 -->
+<div id="logo" style="text-align: center;">
+  <h1>MUSE</h1>
+</div>
+
+<!-- 카테고리 선택 버튼 -->
+<div id="categories" style="text-align: center;">
+  <button>전체</button>
+  <button>일렉기타</button>
+  <button>베이스</button>
+  <button>어쿠스틱</button>
+  <button>키보드</button>
+  <button>드럼</button>
+  <button>앰프</button>
+  <button>마이크</button>
+</div>
+
+<!-- 게시글 정보 -->
+<div>
+  <label for="postTitle"></label>
+  <input type="text" id="postTitle" name="postTitle" class="form-control"
+         value="제목" th:value="${post.title}" readonly>
+</div>
+
+<!-- 작성자 및 조회수 -->
+<div id="author-views" style="margin-top: 20px; text-align: center;">
+  <p><!-- 닉네임 --> 조회수: <!-- 조회수 --></p>
+</div>
+
+<!-- 본문 -->
+<div>
+  <label for="postContent"></label>
+  <textarea class="form-control" rows="5"
+            id="postContent" name="postContent"
+            th:value="${post.content}" th:text="${post.content}" readonly></textarea>
+</div>
+
+<form th:action="@{{postId}/delete(postId=${post.id})}" method="post">
+
+  <button class="btn btn-primary"
+          th:onclick="|location.href='@{{postId}/edit(postId=${post.id})}'|"
+          type="button">수정</button>
+
+  <button class="btn btn-danger" type="submit">삭제</button>
+</form>
+<!--&lt;!&ndash; 댓글 &ndash;&gt;-->
+<!--<div id="comments" style="margin-top: 20px;">-->
+<!--  <h3>댓글</h3>-->
+<!--  &lt;!&ndash; 댓글 목록 &ndash;&gt;-->
+<!--  <ul>-->
+<!--    <li>&lt;!&ndash; 댓글 내용 &ndash;&gt;</li>-->
+<!--    &lt;!&ndash; 댓글 내용이 추가될 때마다 li 태그를 추가 &ndash;&gt;-->
+<!--  </ul>-->
+<!--  &lt;!&ndash; 댓글 입력 폼 &ndash;&gt;-->
+<!--  <form th:action="@{/comments}" method="post">-->
+<!--    <input type="text" name="comment" placeholder="댓글을 입력하세요">-->
+<!--    <button type="submit">등록</button>-->
+<!--  </form>-->
+<!--</div>-->
+
+</body>
+</html>

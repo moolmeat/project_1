@@ -15,12 +15,9 @@ public class LoginService {
     private final MemberRepository memberRepository;
 
     public MemberEntity login(String memberId, String memberPassword) {
-        Optional<MemberEntity> findMember = memberRepository.findByMemberId(memberId);
-        MemberEntity memberEntity = findMember.get();
-        if (memberEntity.getMemberPassword().equals(memberPassword)) {
-            return memberEntity;
-        }
-        else return null;
+        return memberRepository.findByMemberId(memberId)
+            .filter(u -> u.getMemberPassword().equals(memberPassword))
+            .orElse(null);
     }
 
 }

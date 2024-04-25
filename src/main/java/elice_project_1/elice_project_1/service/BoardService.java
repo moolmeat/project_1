@@ -7,6 +7,7 @@ import elice_project_1.elice_project_1.repository.MemberRepository;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import javax.swing.text.html.parser.Entity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +33,11 @@ public class BoardService {
     public List<BoardEntity> findAll() {
         List<BoardEntity> boardList = boardRepository.findAll();
         return boardList.isEmpty() ? Collections.emptyList() : boardList; // 빈 목록인 경우 빈 리스트 반환
+    }
+
+    /** 게시글 단건 조회 **/
+    public Optional<BoardEntity> findOne(Long id) {
+        return boardRepository.findById(id);
     }
 
     /** 게시글 수정 **/

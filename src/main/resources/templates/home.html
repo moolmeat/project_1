@@ -37,19 +37,31 @@
 </div>
 
 <!-- 게시글 정렬 박스 -->
-<div id="post-box">
-  <!-- 여기에 게시글이 표시됩니다 -->
-  <h2>게시글</h2>
-  <ul th:if="${list.empty}">
-    <li>게시글이 없습니다.</li>
-  </ul>
-  <ul th:if="${not list.empty}">
-    <!-- postList를 반복하여 각 게시물을 표시 -->
-    <li th:each="post : ${list}">
-      <span th:text="${post.title}"></span>
-    </li>
-  </ul>
-</div>
+<table class="table">
+  <thead>
+  <tr>
+    <th width="10%">게시글번호</th>
+    <th width="">제목</th>
+    <th width="20%">작성자</th>
+    <th width="20%">작성일</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="post : ${list}">
+    <td>
+      <a th:href="@{/{postId}(postId=${post.id})}"
+         th:text="${post.id}">게시글 번호</a>
+    </td>
+    <td>
+      <a th:href="@{/{postId}(postId=${post.id})}"
+         th:text="${post.title}">제목</a>
+    </td>
+    <td th:text="${post.memberEntity.memberId}">작성자</td>
+    <td th:text="${post.registerDate}">작성일</td>
+  </tr>
+  </tbody>
+</table>
+
 
 <!-- 페이지 선택 버튼 -->
 <div id="page-buttons" style="text-align: center;">
