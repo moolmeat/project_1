@@ -1,8 +1,11 @@
 package elice_project_1.elice_project_1.controller;
 
+import elice_project_1.elice_project_1.SessionConst;
 import elice_project_1.elice_project_1.dto.LoginDTO;
 import elice_project_1.elice_project_1.entity.MemberEntity;
 import elice_project_1.elice_project_1.service.LoginService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +28,7 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String login(@Valid @ModelAttribute("loginDTO") LoginDTO loginDTO, BindingResult bindingResult) {
+    public String login(@Valid @ModelAttribute("loginDTO") LoginDTO loginDTO, BindingResult bindingResult, HttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {
             log.info("errors = {}", bindingResult);
@@ -37,6 +40,19 @@ public class LoginController {
             log.info("login Fail");
             bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
             return "login";
+        }
+        HttpSession session = request.getSession();
+
+        session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
+
+        return "redirect:/";
+    }
+
+    @PostMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
         }
         return "redirect:/";
     }

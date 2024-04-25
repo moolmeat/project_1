@@ -9,7 +9,11 @@
 
 <!-- 로그인 버튼 -->
 <div id="login-button" style="float: right;">
-  <button id="login-btn">로그인</button>
+  <form th:action="@{/logout}" method="post">
+    <button class="w-100 btn btn-dark btn-lg" type="submint">
+      로그아웃
+    </button>
+  </form>
 </div>
 
 <!-- 로고 -->
@@ -34,6 +38,11 @@
   <button>최신</button>
   <button>추천수</button>
   <button>조회수</button>
+</div>
+
+<!-- 글쓰기 버튼 -->
+<div id="write-button" style="float: left;">
+  <button onclick="window.location.href='write.html'">글쓰기</button>
 </div>
 
 <!-- 게시글 정렬 박스 -->
@@ -66,6 +75,6 @@
   <input type="text" placeholder="검색어를 입력하세요">
   <button>검색</button>
 </div>
-<script src="home.js"></script>
+
 </body>
 </html>
