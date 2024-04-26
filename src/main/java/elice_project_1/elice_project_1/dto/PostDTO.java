@@ -14,6 +14,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class PostDTO {
 
+    @NotBlank
+    private Long id;
+
     @NotBlank(message = "제목을 입력해주세요.")
     private String title;
 

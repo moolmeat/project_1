@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>게시판 홈</title>
-  <link rel="stylesheet" th:href="@{/home.css}">
+  <link rel="stylesheet" href="home.css?ver=1">
 </head>
 <body>
 
@@ -31,10 +31,17 @@
 </div>
 
 <!-- 정렬 버튼 -->
-<div id="sort-buttons" th:style="'float: right;'">
-  <button>최신</button>
-  <button>추천수</button>
-  <button>조회수</button>
+<div id="sort-dropdown" th:style="'float: right;'">
+  <div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="sortMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      정렬
+    </button>
+    <div class="dropdown-menu" aria-labelledby="sortMenu">
+      <a class="dropdown-item" href="#">최신</a>
+      <a class="dropdown-item" href="#">추천수</a>
+      <a class="dropdown-item" href="#">조회수</a>
+    </div>
+  </div>
 </div>
 
 <!-- 게시글 정렬 박스 -->
@@ -62,21 +69,25 @@
 </table>
 
 
-<!-- 페이지 선택 버튼 -->
 <div id="page-buttons" th:style="'text-align: center;'">
-  <button>1</button>
-  <button>2</button>
-  <button>3</button>
-  <button>4</button>
-  <button>5</button>
-  <button>다음</button>
+  <!-- 이전 페이지 버튼 -->
+  <button th:disabled="${currentPage == 1}" th:onclick="'location.href = \'' + @{/}?page=' + (${currentPage} - 1)" >&lt;</button>
+  <!-- 페이지 그룹 -->
+  <th:block th:each="groupNumber : ${#numbers.sequence(1, totalPages/5)}">
+    <th:block th:if="${currentPage > (groupNumber * 5 - 5) && currentPage <= groupNumber * 5}">
+      <button th:each="pageNumber : ${#numbers.sequence((groupNumber * 5 - 4), groupNumber * 5)}" th:if="${pageNumber <= totalPages}" th:onclick="'location.href = \'' + @{/}?page=' + ${pageNumber}" th:text="${pageNumber}"></button>
+    </th:block>
+  </th:block>
+  <!-- 다음 페이지 버튼 -->
+  <button th:disabled="${currentPage == totalPages}" th:onclick="'location.href = \'' + @{/}?page=' + (${currentPage} + 1)" >&gt;</button>
 </div>
+
 
 <!-- 검색 창 -->
 <div id="search-box" th:style="'text-align: center;'">
   <input type="text" placeholder="검색어를 입력하세요">
   <button>검색</button>
 </div>
-<script th:src="@{/home.js}"></script>
+<script src="home.js?ver=1"></script>
 </body>
 </html>

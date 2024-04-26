@@ -1,5 +1,6 @@
 package elice_project_1.elice_project_1.service;
 
+import elice_project_1.elice_project_1.dto.PostDTO;
 import elice_project_1.elice_project_1.entity.BoardEntity;
 import elice_project_1.elice_project_1.entity.MemberEntity;
 import elice_project_1.elice_project_1.repository.BoardRepository;
@@ -9,6 +10,11 @@ import java.util.List;
 import java.util.Optional;
 import javax.swing.text.html.parser.Entity;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,4 +58,5 @@ public class BoardService {
     public void deleteById(Long id) {
         boardRepository.deleteById(id);
     }
+
 }
