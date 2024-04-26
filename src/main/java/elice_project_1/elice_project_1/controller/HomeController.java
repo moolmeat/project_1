@@ -72,7 +72,7 @@ public class HomeController {
     }
 
     @GetMapping("/{postId}/edit")
-    public String editForm(@PathVariable Long postId, Model model){
+    public String editForm(@PathVariable(name = "postId") Long postId, Model model){
         BoardEntity boardEntity = boardService.findOne(postId).orElseThrow();
 
         PostDTO postDTO = new PostDTO();
@@ -86,20 +86,23 @@ public class HomeController {
     }
 
     @PostMapping("/{postId}/edit")
-    public String edit(@PathVariable Long postId, @Valid @ModelAttribute PostDTO postDTO, BindingResult bindingResult) {
+    public String edit(@PathVariable(name = "postId") Long postId, @Valid @ModelAttribute PostDTO postDTO, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             log.info("errors = {}", bindingResult);
             return "editForm";
         }
+        model.addAttribute("postId", postId);
+        model.addAttribute("postDTO", postDTO);
         boardService.updateBoard(postId, postDTO.getTitle(), postDTO.getContent());
 
         return "redirect:/{postId}";
     }
 
     @PostMapping("/{postId}/delete")
-    private String delete(@PathVariable Long postId) {
+    private String delete(@PathVariable(name = "postId") Long postId, Model model) {
+        model.addAttribute("postId", postId);
         boardService.deleteById(postId);
-        return "home";
+        return "redirect:/";
     }
 
 }

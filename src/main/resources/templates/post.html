@@ -53,14 +53,14 @@
             th:value="${post.content}" th:text="${post.content}" readonly></textarea>
 </div>
 
-<form th:action="@{{postId}/delete(postId=${post.id})}" method="post">
-
-  <button class="btn btn-primary"
-          th:onclick="|location.href='@{{postId}/edit(postId=${post.id})}'|"
-          type="button">수정</button>
-
-  <button class="btn btn-danger" type="submit">삭제</button>
-</form>
+<div class="btn-group" role="group">
+  <form th:action="@{${postId} + '/edit'}" method="get">
+    <button class="btn btn-primary" type="submit">수정</button>
+  </form>
+  <form th:action="@{${postId} + '/delete'}" method="post">
+    <button class="btn btn-danger" type="submit">삭제</button>
+  </form>
+</div>
 <!--&lt;!&ndash; 댓글 &ndash;&gt;-->
 <!--<div id="comments" style="margin-top: 20px;">-->
 <!--  <h3>댓글</h3>-->
