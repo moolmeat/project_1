@@ -4,7 +4,72 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>로그인</title>
-  <link rel="stylesheet" href="login.css?ver=1">
+  <style>
+    /* Body 스타일 */
+body {
+    background-color: #222;
+    color: #ddd;
+    font-family: Arial, sans-serif;
+}
+
+/* 컨테이너 스타일 */
+.container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #333;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* 헤더 스타일 */
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* 입력 필드 스타일 */
+input[type="text"],
+input[type="password"] {
+    width: calc(100% - 20px); /* 입력 필드의 너비를 컨테이너 너비에서 20px 뺀 값으로 설정 */
+    padding: 10px;
+    margin: 0 auto 20px auto; /* 위쪽과 아래쪽에만 마진을 주어 가운데 정렬 */
+    border: none;
+    border-radius: 5px;
+    background-color: #444;
+    color: #ddd;
+}
+
+/* 오류 메시지 스타일 */
+.field-error {
+    color: red;
+    margin-bottom: 10px;
+}
+
+/* 로그인 버튼 스타일 */
+input[type="submit"],
+button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #777;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+input[type="submit"]:hover,
+button:hover {
+    background-color: #555;
+}
+
+/* 회원가입 버튼 스타일 */
+#registerButton {
+    margin-top: 10px;
+    background-color: #333;
+}
+  </style>
 </head>
 <body>
 <div class="container">
@@ -27,6 +92,13 @@
     <button id="registerButton">회원가입</button>
   </form>
 </div>
-<script src="login.js?ver=1"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('registerButton').addEventListener('click', function(event) {
+        event.preventDefault();
+        window.location.href = "/member/join";
+    });
+  });
+</script>
 </body>
 </html>

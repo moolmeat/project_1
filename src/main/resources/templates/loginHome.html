@@ -4,49 +4,154 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>게시판 홈</title>
-  <link rel="stylesheet" href="home.css?ver=1">
+  <style>
+    /* Body 스타일 */
+body {
+    background-color: #222;
+    color: #ddd;
+    font-family: Arial, sans-serif;
+}
+
+/* 로그인 버튼 스타일 */
+#login-button button {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* 로고 스타일 */
+#logo h1 {
+    color: #fff;
+    font-size: 32px;
+}
+
+/* 카테고리 선택 버튼 스타일 */
+#categories button {
+    background-color: #444;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* 글쓰기 버튼 스타일 */
+.write-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.write-button:hover {
+    background-color: #0056b3;
+}
+
+
+/* 정렬 버튼 스타일 */
+#sort-buttons button {
+    background-color: #444;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* 테이블 스타일 */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #333;
+}
+
+th, td {
+    padding: 10px;
+    border-bottom: 1px solid #555;
+    text-align: left;
+    color: #fff;
+}
+
+th {
+    background-color: #444;
+}
+
+/* 페이지 선택 버튼 스타일 */
+#page-buttons button {
+    background-color: #444;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* 검색 창 스타일 */
+#search-box input[type="text"],
+#search-box button {
+    background-color: #444;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#search-box input[type="text"]::placeholder {
+    color: #bbb;
+}
+
+#search-box button:hover {
+    background-color: #555;
+}
+  </style>
 </head>
 <body>
-
-<!-- 로그인 버튼 -->
-<div id="login-button" style="float: right;">
-  <form th:action="@{/logout}" method="post">
-    <button class="w-100 btn btn-dark btn-lg" type="submint">
-      로그아웃
-    </button>
-  </form>
-</div>
-
-<!-- 로고 -->
-<div id="logo" style="text-align: center;">
-  <h1>MUSE</h1>
-</div>
-
-<!-- 카테고리 선택 버튼 -->
-<div id="categories" style="text-align: center;">
-  <button>전체</button>
-  <button>일렉기타</button>
-  <button>베이스</button>
-  <button>어쿠스틱</button>
-  <button>키보드</button>
-  <button>드럼</button>
-  <button>앰프</button>
-  <button>마이크</button>
-</div>
-
+  <!-- 로그인 버튼-->
+  <div id="login-button" style="float: right;">
+    <form th:action="@{/logout}" method="post">
+      <button class="w-100 btn btn-dark btn-lg" type="submint">
+        로그아웃
+      </button>
+    </form>
+  </div>
+  <!-- 로고 -->
+  <div id="logo" style="text-align: center;">
+    <h1>MUSE</h1>
+  </div>
+  <!-- 카테고리 선택 버튼 -->
+  <div id="categories" style="text-align: center;">
+    <button>전체</button>
+    <button>일렉기타</button>
+    <button>베이스</button>
+    <button>어쿠스틱</button>
+    <button>키보드</button>
+    <button>드럼</button>
+    <button>앰프</button>
+    <button>마이크</button>
+  </div>
+  <div id="sort-buttons" style="float: right;">
+    <button>최신</button>
+    <button>추천수</button>
+    <button>조회수</button>
+  </div>
+  <!-- 글쓰기 버튼 -->
+  <button class="btn btn-primary"
+          th:onclick="|location.href='@{/write}'|" type="button">
+    글쓰기
+  </button>
 <!-- 정렬 버튼 -->
-<div id="sort-buttons" style="float: right;">
-  <button>최신</button>
-  <button>추천수</button>
-  <button>조회수</button>
-</div>
-
-<!-- 글쓰기 버튼 -->
-<button class="btn btn-primary"
-        th:onclick="|location.href='@{/write}'|" type="button">
-  글쓰기
-</button>
-
 <table class="table">
   <thead>
   <tr>
@@ -71,23 +176,19 @@
   </tr>
   </tbody>
 </table>
-</div>
-
-<!-- 페이지 선택 버튼 -->
-<div id="page-buttons" style="text-align: center;">
-  <button>1</button>
-  <button>2</button>
-  <button>3</button>
-  <button>4</button>
-  <button>5</button>
-  <button>다음</button>
-</div>
-
-<!-- 검색 창 -->
-<div id="search-box" style="text-align: center;">
-  <input type="text" placeholder="검색어를 입력하세요">
-  <button>검색</button>
-</div>
-
+  <!-- 페이지 선택 버튼 -->
+  <div id="page-buttons" style="text-align: center;">
+    <button>1</button>
+    <button>2</button>
+    <button>3</button>
+    <button>4</button>
+    <button>5</button>
+    <button>다음</button>
+  </div>
+  <!-- 검색 창 -->
+  <div id="search-box" style="text-align: center;">
+    <input type="text" placeholder="검색어를 입력하세요">
+    <button>검색</button>
+  </div>
 </body>
 </html>

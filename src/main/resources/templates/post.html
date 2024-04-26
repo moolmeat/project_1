@@ -4,7 +4,68 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>게시판 홈</title>
-  <link rel="stylesheet" href="post.css?ver=1">
+  <style>
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #222;
+    color: #ddd;
+}
+
+#login-button button {
+    background-color: #343a40; /* 다크 그레이 */
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#logo h1 {
+    color: #fff;
+}
+
+#categories button {
+    background-color: #343a40;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#author-views p {
+    color: #bbb; /* 더 어두운 회색 */
+}
+
+#postTitle, #postContent {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #555;
+    border-radius: 4px;
+    background-color: #333; /* 다크 그레이 */
+    color: #ddd;
+}
+
+.btn-group button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: #007bff; /* 파란색 */
+    color: #fff;
+    margin-right: 10px;
+}
+
+.btn-danger {
+    background-color: #dc3545; /* 붉은색 */
+    color: #fff;
+}
+  </style>
 </head>
 <body>
 
@@ -62,20 +123,52 @@
     <button class="btn btn-danger" type="submit">삭제</button>
   </form>
 </div>
-<!--&lt;!&ndash; 댓글 &ndash;&gt;-->
-<!--<div id="comments" style="margin-top: 20px;">-->
-<!--  <h3>댓글</h3>-->
-<!--  &lt;!&ndash; 댓글 목록 &ndash;&gt;-->
-<!--  <ul>-->
-<!--    <li>&lt;!&ndash; 댓글 내용 &ndash;&gt;</li>-->
-<!--    &lt;!&ndash; 댓글 내용이 추가될 때마다 li 태그를 추가 &ndash;&gt;-->
-<!--  </ul>-->
-<!--  &lt;!&ndash; 댓글 입력 폼 &ndash;&gt;-->
-<!--  <form th:action="@{/comments}" method="post">-->
-<!--    <input type="text" name="comment" placeholder="댓글을 입력하세요">-->
-<!--    <button type="submit">등록</button>-->
-<!--  </form>-->
+
+<!--&lt;!&ndash; Comments Form &ndash;&gt;-->
+<!--<div class="card my-4">-->
+<!--  <h5 class="card-header">댓글 작성</h5>-->
+<!--  <div class="card-body">-->
+<!--    <form th:action="@{{id}/comment(id=${id})}" th:method="post">-->
+<!--      <div class="form-group" style="margin-bottom: 10px;">-->
+<!--        <input type="hidden" name="idx" th:value="*{idx}" />-->
+<!--        <textarea name="content" class="form-control" rows="3"></textarea>-->
+<!--      </div>-->
+<!--      <button type="submit" class="btn btn-primary">등록</button>-->
+<!--    </form>-->
+<!--  </div>-->
 <!--</div>-->
+
+<!--&lt;!&ndash; Display Comments &ndash;&gt;-->
+<!--<div class="card my-4" th:if="${comments.size()} != 0">-->
+<!--  <h5 class="card-header">댓글</h5>-->
+<!--  <div class="card-body">-->
+<!--    <div th:each="comment : ${comments}">-->
+<!--      <div class="media mb-4">-->
+<!--        <div class="media-body">-->
+<!--          <h5 class="mt-0" th:text="${comment.getUsername()}">User Name</h5>-->
+<!--          <p th:text="${comment.getContent()}" th:id="'comment-' + ${comment.getId()}">Comment content</p>-->
+<!--          <small class="text-muted" th:text="${#temporals.format(comment.getCreatedAt(), 'yyyy-MM-dd HH:mm')}">Comment Date</small>-->
+<!--            <button class="btn btn-sm btn-outline-warning" th:attr="data-id=${comment.getId()}" onclick="editComment(this)">수정</button>-->
+<!--            <a th:href="@{/{id}/comment/{commentId}/remove(id=${id}, commentId=${comment.getId()})}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this comment?')">삭제</a>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+<!--<script>-->
+<!--  function editComment(button) {-->
+<!--    const commentId = button.getAttribute('data-id');-->
+<!--    const commentElement = document.getElementById('comment-' + commentId);-->
+<!--    const commentContent = commentElement.textContent;-->
+
+<!--    const newContent = prompt('Edit your comment:', commentContent);-->
+<!--    if (newContent) {-->
+<!--        $.post(`/board/${id}/comment/${commentId}/update`, {content: newContent}, function(data) {-->
+<!--            window.location.href = data;-->
+<!--        });-->
+<!--    }-->
+<!--}-->
+<!--</script>-->
 
 </body>
 </html>

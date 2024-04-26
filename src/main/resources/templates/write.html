@@ -4,7 +4,95 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>게시판 홈</title>
-  <link rel="stylesheet" href="write.css?ver=1">
+  <style>
+    body {
+        font-family: Arial, sans-serif; /* 폰트 설정 */
+        background-color: #222; /* 어두운 배경색 */
+        color: #ddd; /* 밝은 텍스트 색상 */
+    }
+
+    #login-button button {
+        background-color: #343a40; /* 버튼 배경색 */
+        color: #fff; /* 버튼 글자색 */
+        border: none; /* 테두리 없음 */
+        padding: 10px 20px; /* 내부 여백 */
+        border-radius: 5px; /* 테두리 반경 */
+        cursor: pointer; /* 마우스 커서 포인터로 변경 */
+    }
+
+    #logo h1 {
+        color: #007bff; /* 로고 색상 */
+    }
+
+    #categories button {
+        background-color: #007bff; /* 버튼 배경색 */
+        color: #fff; /* 버튼 글자색 */
+        border: none; /* 테두리 없음 */
+        padding: 10px 20px; /* 내부 여백 */
+        margin: 5px; /* 외부 여백 */
+        border-radius: 5px; /* 테두리 반경 */
+        cursor: pointer; /* 마우스 커서 포인터로 변경 */
+    }
+
+    .container {
+        max-width: 700px; /* 컨테이너 최대 너비 설정 */
+        margin: 50px auto; /* 페이지 중앙 정렬 */
+        padding: 20px; /* 내부 여백 */
+        background-color: #333; /* 배경색 */
+        border-radius: 5px; /* 테두리 반경 */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    }
+
+    .container h2 {
+        color: #007bff; /* 제목 색상 */
+    }
+
+    label {
+        font-weight: bold; /* 입력 필드 라벨 굵게 */
+        color: #aaa; /* 입력 필드 라벨 색상 */
+    }
+
+    input[type="text"],
+    textarea {
+        width: 100%; /* 입력 필드 폭 전체로 설정 */
+        padding: 10px; /* 내부 여백 */
+        margin-bottom: 20px; /* 입력 필드 아래 여백 */
+        border: 1px solid #555; /* 테두리 */
+        border-radius: 4px; /* 테두리 반경 */
+        box-sizing: border-box; /* 박스 크기 및 테두리 상자 크기 설정 */
+        background-color: #444; /* 배경색 */
+        color: #ddd; /* 텍스트 색상 */
+    }
+
+    .field-error {
+        color: #ff7b7b; /* 필드 오류 색상 */
+        font-size: 0.875rem; /* 필드 오류 메시지 폰트 크기 */
+    }
+
+    button[type="submit"],
+    button[type="button"] {
+        padding: 10px 20px; /* 버튼 내부 여백 */
+        border: none; /* 테두리 없음 */
+        border-radius: 4px; /* 버튼 반경 */
+        cursor: pointer; /* 커서 포인터로 변경 */
+    }
+
+    button[type="submit"] {
+        background-color: #007bff; /* 제출 버튼 배경색 */
+        color: #fff; /* 제출 버튼 글꼴 색상 */
+        margin-right: 10px; /* 제출 버튼 오른쪽 여백 */
+    }
+
+    button[type="submit"]:hover,
+    button[type="button"]:hover {
+        opacity: 0.8; /* 마우스 호버 시 투명도 조정 */
+    }
+
+    button[type="button"] {
+        background-color: #6c757d; /* 취소 버튼 배경색 */
+        color: #fff; /* 취소 버튼 글꼴 색상 */
+    }
+  </style>
 </head>
 <body>
 
@@ -47,12 +135,8 @@
     </div>
     <hr class="my-4">
 
-    <button class="btn btn-primary btn-lg" type="submit">
-      등록
-    </button>
-    <button class="btn btn-secondary btn-lg" th:onclick="|location.href='@{/}'|" type="button">
-      취소
-    </button>
+    <button class="btn btn-primary btn-lg" type="submit">등록</button>
+    <button class="btn btn-secondary btn-lg" th:onclick="|location.href='@{/}'|" type="button">취소</button>
   </form>
 
 </div>
