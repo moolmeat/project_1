@@ -21,8 +21,13 @@
     }
 
     #logo h1 {
-        color: #007bff; /* 로고 색상 */
-    }
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    font-size: 50px;
+    font-family: 'Arial Black'
+}
 
     #categories button {
         background-color: #007bff; /* 버튼 배경색 */
@@ -35,12 +40,22 @@
     }
 
     .container {
-        max-width: 700px; /* 컨테이너 최대 너비 설정 */
+        max-width: 800px; /* 컨테이너 최대 너비 설정 */
         margin: 50px auto; /* 페이지 중앙 정렬 */
         padding: 20px; /* 내부 여백 */
         background-color: #333; /* 배경색 */
         border-radius: 5px; /* 테두리 반경 */
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    }
+
+    .form-select {
+    background-color: #6c757d; /* 버튼 배경색 */
+    color: #fff; /* 버튼 글자색 */
+    border: none; /* 테두리 없음 */
+    padding: 10px 20px; /* 내부 여백 */
+    margin-bottom: 20px; /* 외부 여백 */
+    border-radius: 5px; /* 테두리 반경 */
+    cursor: pointer; /* 마우스 커서 포인터로 변경 */
     }
 
     .container h2 {
@@ -96,15 +111,21 @@
 </head>
 <body>
 
-<!-- 로그인 버튼 -->
-<div id="login-button" style="float: right;">
-  <button>로그인</button>
+<!-- 로그아웃 버튼 -->
+<div id="login-button">
+  <form th:action="@{/logout}" method="post">
+    <button class="w-100 btn btn-dark btn-lg" type="submint">
+      로그아웃
+    </button>
+  </form>
 </div>
 
 <!-- 로고 -->
-<div id="logo" style="text-align: center;">
-  <h1>MUSE</h1>
-</div>
+<a href="/">
+  <div id="logo">
+    <h1>MUSE</h1>
+  </div>
+</a>
 
 <!-- 카테고리 선택 버튼 -->
 <div id="categories" style="text-align: center;">
@@ -118,12 +139,27 @@
   <button>마이크</button>
 </div>
 
+
+
 <!-- 제목 -->
 <div class="container">
   <div class="py-5 text-center">
     <h2>게시글 등록</h2>
   </div>
   <form action="/write" th:action="@{/write}" th:object="${postDTO}" method="post">
+    <!--게시글 카테고리 선택-->
+    <div>
+      <select th:field="*{category}" class="form-select">
+        <option value="">카테고리를선택해주세요</option> <!--선택안한 비어있는값-->
+        <option value="일렉기타">일렉기타</option>
+        <option value="베이스">베이스</option>
+        <option value="어쿠스틱">어쿠스틱</option>
+        <option value="키보드">키보드</option>
+        <option value="드럼">드럼</option>
+        <option value="앰프">앰프</option>
+        <option value="마이크">마이크</option>
+      </select>
+    </div>
     <div>
       <label for="title">제목</label>
       <input type="text" id="title" th:field="*{title}" class="form-control" th:errorclass="field-error">

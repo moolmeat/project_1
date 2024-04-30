@@ -1,6 +1,5 @@
 package elice_project_1.elice_project_1.service;
 
-import elice_project_1.elice_project_1.dto.PostDTO;
 import elice_project_1.elice_project_1.entity.BoardEntity;
 import elice_project_1.elice_project_1.entity.MemberEntity;
 import elice_project_1.elice_project_1.repository.BoardRepository;
@@ -8,13 +7,7 @@ import elice_project_1.elice_project_1.repository.MemberRepository;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import javax.swing.text.html.parser.Entity;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,9 +21,9 @@ public class BoardService {
 
     /** 게시글 생성 **/
     @Transactional
-    public Long write(String title, String content, Long id) {
+    public Long write(String title, String content, Long id, String category) {
         Optional<MemberEntity> memberEntity = memberRepository.findById(id);
-        BoardEntity boardEntity = BoardEntity.createBoard(title, content, memberEntity.orElse(null));
+        BoardEntity boardEntity = BoardEntity.createBoard(title, content, category, memberEntity.orElse(null));
         boardRepository.save(boardEntity);
         return boardEntity.getId();
     }
@@ -48,9 +41,9 @@ public class BoardService {
 
     /** 게시글 수정 **/
     @Transactional
-    public void updateBoard(Long id, String title, String content) {
+    public void updateBoard(Long id, String title, String content, String category) {
         BoardEntity boardEntity = boardRepository.findById(id).orElseThrow();
-        boardEntity.update(title, content);
+        boardEntity.update(title, content, category);
     }
 
     /** 게시글 삭제 **/

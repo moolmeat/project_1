@@ -14,6 +14,7 @@ body {
 
 /* 로그인 버튼 스타일 */
 #login-button button {
+    width : 95px;
     background-color: #333;
     color: #fff;
     border: none;
@@ -21,15 +22,36 @@ body {
     margin-top: 10px;
     border-radius: 5px;
     cursor: pointer;
+    float: right;
 }
 
 /* 로고 스타일 */
 #logo h1 {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    text-decoration: none;
     color: #fff;
-    font-size: 32px;
+    font-size: 50px;
+    font-family: 'Arial Black'
+}
+
+.sort {
+    background-color: #6c757d; /* 버튼 배경색 */
+    color: #fff; /* 버튼 글자색 */
+    border: none; /* 테두리 없음 */
+    padding: 10px 20px; /* 내부 여백 */
+    margin-bottom: 20px; /* 외부 여백 */
+    border-radius: 5px; /* 테두리 반경 */
+    cursor: pointer; /* 마우스 커서 포인터로 변경 */
+    float: right;
 }
 
 /* 카테고리 선택 버튼 스타일 */
+#categories {
+    text-align: center; /* 내용을 수평으로 가운데 정렬 */
+}
+
 #categories button {
     background-color: #444;
     color: #fff;
@@ -38,6 +60,7 @@ body {
     margin: 5px;
     border-radius: 5px;
     cursor: pointer;
+    display: inline-block; /* 가로로 정렬하기 위해 인라인 블록 요소로 설정 */
 }
 
 /* 글쓰기 버튼 스타일 */
@@ -46,7 +69,6 @@ body {
     color: #fff;
     border: none;
     padding: 10px 20px;
-    margin: 10px;
     border-radius: 5px;
     cursor: pointer;
 }
@@ -55,16 +77,23 @@ body {
     background-color: #0056b3;
 }
 
-
 /* 정렬 버튼 스타일 */
 #sort-buttons button {
     background-color: #444;
     color: #fff;
     border: none;
     padding: 10px 20px;
-    margin: 5px;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.container {
+        max-width: 800px; /* 컨테이너 최대 너비 설정 */
+        margin: 50px auto 10px auto; /* 페이지 중앙 정렬 */
+        padding: 20px; /* 내부 여백 */
+        background-color: #333; /* 배경색 */
+        border-radius: 5px; /* 테두리 반경 */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
 }
 
 /* 테이블 스타일 */
@@ -85,12 +114,41 @@ th {
     background-color: #444;
 }
 
+}
+
+td:nth-child(1) {
+    width: 10%; /* 첫 번째 열의 너비를 20%로 설정 */
+}
+
+td:nth-child(2) {
+    width: 45%; /* 두 번째 열의 너비를 40%로 설정 */
+}
+
+td:nth-child(3) {
+    width: 20%; /* 세 번째 열의 너비를 25%로 설정 */
+}
+
+td:nth-child(4) {
+    width: 25%; /* 네 번째 열의 너비를 15%로 설정 */
+}
+
+.bottom-btn {
+        max-width: 300px; /* 컨테이너 최대 너비 설정 */
+        margin: 5px auto 10px auto; /* 페이지 중앙 정렬 */
+        padding: 5px; /* 내부 여백 */
+        background-color: #333; /* 배경색 */
+        border-radius: 5px; /* 테두리 반경 */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+        text-align: center;
+}
+
+
 /* 페이지 선택 버튼 스타일 */
 #page-buttons button {
     background-color: #444;
     color: #fff;
     border: none;
-    padding: 10px 20px;
+    padding: 5px 10px;
     margin: 5px;
     border-radius: 5px;
     cursor: pointer;
@@ -102,7 +160,7 @@ th {
     background-color: #444;
     color: #fff;
     border: none;
-    padding: 10px 20px;
+    padding: 5px 10px;
     margin: 5px;
     border-radius: 5px;
     cursor: pointer;
@@ -115,11 +173,19 @@ th {
 #search-box button:hover {
     background-color: #555;
 }
+
+#page-buttons button,
+#search-box input[type="text"],
+#search-box button {
+    display: inline-block; /* 버튼과 입력 필드를 한 줄에 나열 */
+    vertical-align: middle; /* 버튼과 입력 필드를 수직 가운데 정렬 */
+}
+
   </style>
 </head>
 <body>
   <!-- 로그인 버튼-->
-  <div id="login-button" style="float: right;">
+  <div id="login-button">
     <form th:action="@{/logout}" method="post">
       <button class="w-100 btn btn-dark btn-lg" type="submint">
         로그아웃
@@ -127,11 +193,13 @@ th {
     </form>
   </div>
   <!-- 로고 -->
-  <div id="logo" style="text-align: center;">
-    <h1>MUSE</h1>
-  </div>
+  <a href="/">
+    <div id="logo">
+      <h1>MUSE</h1>
+    </div>
+  </a>
   <!-- 카테고리 선택 버튼 -->
-  <div id="categories" style="text-align: center;">
+  <div id="categories">
     <button>전체</button>
     <button>일렉기타</button>
     <button>베이스</button>
@@ -141,31 +209,33 @@ th {
     <button>앰프</button>
     <button>마이크</button>
   </div>
-  <div id="sort-buttons" style="float: right;">
-    <button>최신</button>
-    <button>추천수</button>
-    <button>조회수</button>
-  </div>
+  <!-- 정렬 버튼 -->
+<div class="container">
   <!-- 글쓰기 버튼 -->
-  <button class="btn btn-primary"
-          th:onclick="|location.href='@{/write}'|" type="button">
+  <div class="container-top-btn">
+  <button class="write-button" th:onclick="|location.href='@{/write}'|" type="button">
     글쓰기
   </button>
+  <select class="sort">
+    <option value="">최신</option>
+    <option value="일렉기타">인기순</option>
+  </select>
+  </div>
 <!-- 정렬 버튼 -->
 <table class="table">
   <thead>
   <tr>
-    <th width="10%">게시글번호</th>
-    <th width="">제목</th>
-    <th width="20%">작성자</th>
-    <th width="20%">작성일</th>
+    <th></th>
+    <th>제목</th>
+    <th>작성자</th>
+    <th>작성일</th>
   </tr>
   </thead>
   <tbody>
   <tr th:each="post : ${list}">
     <td>
       <a th:href="@{/{postId}(postId=${post.id})}"
-         th:text="${post.id}">게시글 번호</a>
+         th:text="${post.id}"></a>
     </td>
     <td>
       <a th:href="@{/{postId}(postId=${post.id})}"
@@ -176,8 +246,10 @@ th {
   </tr>
   </tbody>
 </table>
+  </div>
+  <div class="bottom-btn">
   <!-- 페이지 선택 버튼 -->
-  <div id="page-buttons" style="text-align: center;">
+  <div id="page-buttons">
     <button>1</button>
     <button>2</button>
     <button>3</button>
@@ -186,9 +258,10 @@ th {
     <button>다음</button>
   </div>
   <!-- 검색 창 -->
-  <div id="search-box" style="text-align: center;">
+  <div id="search-box">
     <input type="text" placeholder="검색어를 입력하세요">
     <button>검색</button>
+  </div>
   </div>
 </body>
 </html>

@@ -3,7 +3,6 @@ package elice_project_1.elice_project_1.service;
 import elice_project_1.elice_project_1.dto.CommentDTO;
 import elice_project_1.elice_project_1.entity.BoardEntity;
 import elice_project_1.elice_project_1.entity.CommentEntity;
-import elice_project_1.elice_project_1.entity.MemberEntity;
 import elice_project_1.elice_project_1.repository.BoardRepository;
 import elice_project_1.elice_project_1.repository.CommentRepository;
 import elice_project_1.elice_project_1.repository.MemberRepository;
@@ -21,12 +20,11 @@ public class CommentService {
     private final BoardRepository boardRepository;
     private final CommentRepository commentRepository;
 
-    public Long writeComment(CommentDTO commentDTO, Long boardId, String memberId) {
-        MemberEntity memberEntity = memberRepository.findByMemberId(memberId).orElseThrow(() -> new UsernameNotFoundException("회원이 존재하지 않습니다."));
+    public Long writeComment(CommentDTO commentDTO, Long boardId) {
         BoardEntity boardEntity = boardRepository.findById(boardId).orElseThrow(() -> new UsernameNotFoundException("게시물을 찾을 수 없습니다."));
         CommentEntity result = CommentEntity.builder()
             .content(commentDTO.getContent())
-            .boardEntity(boardEntity).memberEntity(memberEntity)
+            .boardEntity(boardEntity)
             .build();
         commentRepository.save(result);
 
@@ -38,7 +36,7 @@ public class CommentService {
         List<CommentEntity> comments = commentRepository.findByBoardEntity(boardEntity);
 
         return comments.stream()
-            .map(commentEntity -> CommentDTO.builder().boardEntity(boardEntity).build())
+            .map(commentEntity -> CommentDTO.builder().content(commentEntity.getContent()).boardEntity(boardEntity).build())
             .collect(Collectors.toList());
     }
 
@@ -51,6 +49,5 @@ public class CommentService {
     public void deleteComment(Long commentId) {
         commentRepository.deleteById(commentId);
     }
-
 
 }

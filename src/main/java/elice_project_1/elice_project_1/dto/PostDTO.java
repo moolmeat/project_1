@@ -19,4 +19,7 @@ public class PostDTO {
 
     @NotNull
     private String content;
+
+    @NotBlank
+    private String category;
 }

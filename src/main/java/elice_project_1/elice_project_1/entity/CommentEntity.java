@@ -19,7 +19,7 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "comment")
+@Table(name = "Comment")
 public class CommentEntity {
 
     @Id
@@ -32,13 +32,8 @@ public class CommentEntity {
     @JoinColumn(name = "board_id")
     private BoardEntity boardEntity;
 
-    @ManyToOne
-    @JoinColumn(name = "member_id")
-    private MemberEntity memberEntity;
-
     public void update(String content) {
         this.content = content;
     }
-
 
 }

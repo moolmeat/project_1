@@ -6,7 +6,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,6 +38,9 @@ public class MemberEntity {
 
     @Column(unique = true)
     private String memberNickname;
+
+    @OneToMany
+    private List<BoardEntity> boards;
 
     @Builder
     public MemberEntity(String memberId, String memberPassword, String memberEmail, String memberNickname) {
