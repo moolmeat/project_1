@@ -22,4 +22,6 @@ public class PostDTO {
 
     @NotBlank
     private String category;
+
+    private int view;
 }

@@ -4,10 +4,16 @@ import elice_project_1.elice_project_1.entity.BoardEntity;
 import elice_project_1.elice_project_1.entity.MemberEntity;
 import elice_project_1.elice_project_1.repository.BoardRepository;
 import elice_project_1.elice_project_1.repository.MemberRepository;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,8 +41,18 @@ public class BoardService {
     }
 
     /** 게시글 단건 조회 **/
+    @Transactional
     public Optional<BoardEntity> findOne(Long id) {
-        return boardRepository.findById(id);
+        Optional<BoardEntity> boardEntityOptional = boardRepository.findById(id);
+        if (boardEntityOptional.isPresent()) {
+            BoardEntity boardEntity = boardEntityOptional.get();
+            boardEntity.setView(boardEntity.getView() + 1);
+            boardRepository.save(boardEntity);
+            // 새로운 트랜잭션에서 엔티티를 새로 가져옴
+            return boardRepository.findById(id);
+        } else {
+            throw new NoSuchElementException("board not found");
+        }
     }
 
     /** 게시글 수정 **/
@@ -50,6 +66,13 @@ public class BoardService {
     @Transactional
     public void deleteById(Long id) {
         boardRepository.deleteById(id);
+    }
+
+    public Page<BoardEntity> getList(int page) {
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("id"));
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+        return this.boardRepository.findAll(pageable);
     }
 
 }

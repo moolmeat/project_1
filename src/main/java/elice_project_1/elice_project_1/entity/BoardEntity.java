@@ -18,6 +18,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Getter
@@ -39,15 +41,20 @@ public class BoardEntity {
     private MemberEntity memberEntity;
 
     @Column(name = "register_date")
-    private String registerDate;
+    @CreatedDate
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime registerDate;
 
     private String category;
+
+    @Column(name = "view", columnDefinition = "integer default 0" ,nullable = false)
+    private int view;
 
     @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CommentEntity> comments;
 
     @Builder
-    public BoardEntity(String title, String content, MemberEntity memberEntity, String registerDate, String category) {
+    public BoardEntity(String title, String content, MemberEntity memberEntity, LocalDateTime registerDate, String category) {
         this.title = title;
         this.content = content;
         this.memberEntity = memberEntity;
@@ -58,7 +65,7 @@ public class BoardEntity {
     public static BoardEntity createBoard(String title, String content, String category, MemberEntity memberEntity) {
         return BoardEntity.builder()
             .title(title).content(content).memberEntity(memberEntity)
-            .registerDate(String.valueOf(LocalDateTime.now()))
+            .registerDate(LocalDateTime.now())
             .category(category)
             .build();
     }
@@ -68,4 +75,5 @@ public class BoardEntity {
         this.content = content;
         this.category = category;
     }
+
 }
