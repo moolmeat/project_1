@@ -27,10 +27,11 @@ public class HomeController {
 
     @GetMapping("/")
     public String loginHome(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) MemberEntity loginMember, @RequestParam(value = "page", defaultValue = "0") int page,
-        @RequestParam(value ="kw", defaultValue = "")String kw ,Model model) {
-        Page<BoardEntity> paging = this.boardService.getList(page, kw);
+        @RequestParam(value ="kw", defaultValue = "")String kw, @RequestParam(value = "sortBy", defaultValue = "id") String sortBy, Model model) {
+        Page<BoardEntity> paging = this.boardService.getList(page, kw, sortBy);
         model.addAttribute("paging", paging);
         model.addAttribute("kw", kw);
+        model.addAttribute("sortBy", sortBy);
 
         if (loginMember == null) {
             return "home";

@@ -68,7 +68,8 @@ body {
 }
 
 .sort {
-
+    width: 110px;
+    height: 38px;
     background-color: #6c757d; /* 버튼 배경색 */
     color: #fff; /* 버튼 글자색 */
     border: none; /* 테두리 없음 */
@@ -234,10 +235,12 @@ td:nth-child(5) {
 <!-- 게시글 정렬 박스 -->
 <div class="container">
   <!-- 정렬 버튼 -->
-  <select class="sort">
-    <option value="">최신</option>
-    <option value="인기순">인기순</option>
-  </select>
+  <form action="/" th:action="@{/}" method="post">
+    <select name="sortBy" class="sort">
+      <option value="id">최신순</option>
+      <option value="view">조회순</option>
+    </select>
+  </form>
 
   <table class="table">
     <thead>

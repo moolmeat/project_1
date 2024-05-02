@@ -91,9 +91,14 @@ public class BoardService {
         boardRepository.deleteById(id);
     }
 
-    public Page<BoardEntity> getList(int page, String kw) {
+    public Page<BoardEntity> getList(int page, String kw, String sortBy) {
         List<Sort.Order> sorts = new ArrayList<>();
-        sorts.add(Sort.Order.desc("id"));
+        if (sortBy.equals("view")) {
+            sorts.add(Sort.Order.desc("view"));
+        }
+        else {
+            sorts.add(Sort.Order.desc("id"));
+        }
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
         Specification<BoardEntity> spec = search(kw);
         return this.boardRepository.findAll(spec, pageable);
