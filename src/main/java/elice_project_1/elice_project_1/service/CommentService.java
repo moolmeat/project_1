@@ -23,6 +23,7 @@ public class CommentService {
     public Long writeComment(CommentDTO commentDTO, Long boardId) {
         BoardEntity boardEntity = boardRepository.findById(boardId).orElseThrow(() -> new UsernameNotFoundException("게시물을 찾을 수 없습니다."));
         CommentEntity result = CommentEntity.builder()
+            .id(commentDTO.getId())
             .content(commentDTO.getContent())
             .boardEntity(boardEntity)
             .build();
@@ -36,7 +37,7 @@ public class CommentService {
         List<CommentEntity> comments = commentRepository.findByBoardEntity(boardEntity);
 
         return comments.stream()
-            .map(commentEntity -> CommentDTO.builder().content(commentEntity.getContent()).boardEntity(boardEntity).build())
+            .map(commentEntity -> CommentDTO.builder().id(commentEntity.getId()).content(commentEntity.getContent()).boardEntity(boardEntity).build())
             .collect(Collectors.toList());
     }
 

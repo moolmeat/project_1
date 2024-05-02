@@ -81,7 +81,8 @@ button:hover {
     </div>
 
     <div>
-      <input type="text" id="memberId" th:field="*{memberId}" name="memberId" class="form-control" th:errorclass="field-error" placeholder="사용자 이름" required>
+      <input type="text" id="memberId" th:field="*{memberId}" name="memberId" class="form-control" th:errorclass="field-error"
+             placeholder="사용자 이름" required>
       <div class="field-error" th:errors="*{memberId}" />
     </div>
     <div>

@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
@@ -24,7 +23,6 @@ public class CommentController {
         return "redirect:/" + id;
     }
 
-    @ResponseBody
     @PostMapping("{id}/comment/{commentId}/update")
     public String updateComment(@PathVariable(name = "id") Long id, @PathVariable(name = "commentId") Long commentId, CommentDTO commentDTO, Model model) {
         model.addAttribute("id", id);
@@ -33,7 +31,6 @@ public class CommentController {
         return "redirect:/" + id;
     }
 
-    @ResponseBody
     @GetMapping("/{id}/comment/{commentId}/remove")
     public String deleteComment(@PathVariable(name = "id") Long id, @PathVariable(name = "commentId") Long commentId, Model model) {
         model.addAttribute("id", id);

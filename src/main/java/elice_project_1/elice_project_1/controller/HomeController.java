@@ -27,9 +27,10 @@ public class HomeController {
 
     @GetMapping("/")
     public String loginHome(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) MemberEntity loginMember, @RequestParam(value = "page", defaultValue = "0") int page,
-        Model model) {
-        Page<BoardEntity> paging = this.boardService.getList(page);
+        @RequestParam(value ="kw", defaultValue = "")String kw ,Model model) {
+        Page<BoardEntity> paging = this.boardService.getList(page, kw);
         model.addAttribute("paging", paging);
+        model.addAttribute("kw", kw);
 
         if (loginMember == null) {
             return "home";

@@ -164,18 +164,18 @@ display: flex;
   </div>
 
   <div>
-  <label for="postTitle">제목</label>
-  <input type="text" id="postTitle" name="postTitle" class="form-control"
-         value="제목" th:value="${post.title}" readonly>
-</div>
+    <label for="postTitle">제목</label>
+    <input type="text" id="postTitle" name="postTitle" class="form-control"
+           value="제목" th:value="${post.title}" readonly>
+  </div>
 
-<!-- 본문 -->
-<div>
-  <label for="postContent">내용</label>
-  <textarea class="form-control" rows="5"
-            id="postContent" name="postContent"
-            th:value="${post.content}" th:text="${post.content}" readonly></textarea>
-</div>
+  <!-- 본문 -->
+  <div>
+    <label for="postContent">내용</label>
+    <textarea class="form-control" rows="5"
+              id="postContent" name="postContent"
+              th:value="${post.content}" th:text="${post.content}" readonly></textarea>
+  </div>
 
   <hr class="my-4">
   <div class="btn-group">
@@ -190,56 +190,26 @@ display: flex;
 </div>
 
 <div class="container2">
-<div class="card my-4" th:if="${comments != null and comments.size() != 0}">
-  <div th:each="comment : ${comments}">
-    <div class="media-body">
-      <p th:text="${comment.getContent()}" th:id="'comment-' + ${comment.getId()}">댓글</p>
-      <a class="btn edit-btn"
-         th:href="@{{id}/comment/{commentId}/update(id=${id}, commentId=${comment.getId()})}"
-         th:attr="data-id=${comment.getId()}" onclick="editComment(this)">수정</a>
-      <a class="btn del-btn"
-         th:href="@{{id}/comment/{commentId}/remove(id=${id}, commentId=${comment.getId()})}"
-         th:attr="data-id=${comment.getId()}" onclick="return confirm('삭제하시겠습니까?')">삭제</a>
+  <div class="card my-4" th:if="${comments != null and comments.size() != 0}">
+    <div th:each="comment : ${comments}">
+      <div class="media-body">
+        <p th:text="${comment.getContent()}" th:id="'comment-' + ${comment.getId()}">댓글</p>
+        <a class="btn edit-btn"
+           th:href="@{{id}/comment/{commentId}/update(id=${id}, commentId=${comment.getId()})}"
+           th:attr="data-id=${comment.getId()}" onclick="editComment(this)">수정</a>
+        <a class="btn del-btn"
+           th:href="@{{id}/comment/{commentId}/remove(id=${id}, commentId=${comment.getId()})}"
+           th:attr="data-id=${comment.getId()}" onclick="return confirm('삭제하시겠습니까?')">삭제</a>
+      </div>
     </div>
   </div>
+
+  <form th:action="@{'/' + ${id} + '/comment'}" method="post" class="comment-reg">
+    <input type="hidden" name="idx" th:value="*{idx}"/>
+    <textarea name="content" class="form-control"></textarea>
+    <button type="submit" class="btn btn-primary">등록</button>
+  </form>
 </div>
-
-<form th:action="@{'/' + ${id} + '/comment'}" method="post" class="comment-reg">
-  <input type="hidden" name="idx" th:value="*{idx}"/>
-  <textarea name="content" class="form-control"></textarea>
-  <button type="submit" class="btn btn-primary">등록</button>
-</form>
-</div>
-
-<script>
-  function editComment(button) {
-    const commentId = button.getAttribute('data-id');
-    const commentElement = document.getElementById('comment-' + commentId);
-    const commentContent = commentElement.textContent;
-
-    const newContent = prompt('수정할 댓글', commentContent);
-    if (newContent) {
-        $.post(`${id}/comment/${commentId}/update`, {content: newContent}, function(data) {
-            window.location.href = data;
-        });
-    }
-}
-
-function editComment(element) {
-    var commentId = element.getAttribute('data-id');
-    // 이제 commentId를 사용하여 원하는 작업을 수행할 수 있습니다.
-}
-
-document.querySelectorAll('.btn-outline-danger').forEach(function(button) {
-    button.addEventListener('click', function() {
-        var commentId = this.getAttribute('data-id');
-        console.log('삭제할 댓글의 ID:', commentId);
-        // 여기서 commentId를 사용하여 원하는 작업을 수행할 수 있습니다.
-    });
-});
-
-</script>
-
 
 </body>
 </html>

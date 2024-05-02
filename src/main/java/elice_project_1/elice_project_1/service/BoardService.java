@@ -4,6 +4,12 @@ import elice_project_1.elice_project_1.entity.BoardEntity;
 import elice_project_1.elice_project_1.entity.MemberEntity;
 import elice_project_1.elice_project_1.repository.BoardRepository;
 import elice_project_1.elice_project_1.repository.MemberRepository;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -14,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +31,22 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
+
+    private Specification<BoardEntity> search(String kw) {
+        return new Specification<>() {
+            private static final long serialVersionUID = 1L;
+            @Override
+            public Predicate toPredicate(Root<BoardEntity> q, CriteriaQuery<?> query,
+                CriteriaBuilder cb) {
+                query.distinct(true);
+                Join<BoardEntity, MemberEntity> u1 = q.join("memberEntity", JoinType.LEFT);
+
+                return cb.or(cb.like(q.get("title"), "%" + kw + "%"), //제목
+                    cb.like(q.get("content"), "%" + kw + "%"),  //내용
+                    cb.like(u1.get("memberNickname"), "%" + kw + "%"));  //자악서엉자아
+            }
+        };
+    }
 
     /** 게시글 생성 **/
     @Transactional
@@ -68,11 +91,12 @@ public class BoardService {
         boardRepository.deleteById(id);
     }
 
-    public Page<BoardEntity> getList(int page) {
+    public Page<BoardEntity> getList(int page, String kw) {
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("id"));
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
-        return this.boardRepository.findAll(pageable);
+        Specification<BoardEntity> spec = search(kw);
+        return this.boardRepository.findAll(spec, pageable);
     }
 
 }
