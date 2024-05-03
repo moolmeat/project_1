@@ -257,8 +257,8 @@ td:nth-child(5) {
     <button class="write-button" th:onclick="|location.href='@{/write}'|" type="button">
       글쓰기
     </button>
-    <form action="/" th:action="@{/}" method="post">
-      <select name="sortBy" class="sort">
+    <form action="/" method="post">
+      <select id="sortBy" name="sortBy" class="sort" onchange="redirectToSelectedSort()">
         <option value="id">최신순</option>
         <option value="view">조회순</option>
       </select>
@@ -340,6 +340,16 @@ td:nth-child(5) {
       document.getElementById('page').value = 0;  // 검색버튼을 클릭할 경우 0페이지부터 조회한다.
       document.getElementById('searchForm').submit();
   });
+</script>
+<script>
+  function redirectToSelectedSort() {
+      var sortBy = document.getElementById("sortBy").value;
+      if (sortBy === "id") {
+          window.location.href = "/?sortBy=id";
+      } else if (sortBy === "view") {
+          window.location.href = "/?sortBy=view";
+      }
+  }
 </script>
 </body>
 </html>

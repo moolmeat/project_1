@@ -235,8 +235,9 @@ td:nth-child(5) {
 <!-- 게시글 정렬 박스 -->
 <div class="container">
   <!-- 정렬 버튼 -->
-  <form action="/" th:action="@{/}" method="post">
-    <select name="sortBy" class="sort">
+  <form action="/" method="post">
+    <select id="sortBy" name="sortBy" class="sort" onchange="redirectToSelectedSort()">
+      <option value="null">게시글</option>
       <option value="id">최신순</option>
       <option value="view">조회순</option>
     </select>
@@ -325,6 +326,16 @@ td:nth-child(5) {
       document.getElementById('page').value = 0;  // 검색버튼을 클릭할 경우 0페이지부터 조회한다.
       document.getElementById('searchForm').submit();
   });
+</script>
+<script>
+  function redirectToSelectedSort() {
+      var sortBy = document.getElementById("sortBy").value;
+      if (sortBy === "id") {
+          window.location.href = "/?sortBy=id";
+      } else if (sortBy === "view") {
+          window.location.href = "/?sortBy=view";
+      }
+  }
 </script>
 </body>
 </html>

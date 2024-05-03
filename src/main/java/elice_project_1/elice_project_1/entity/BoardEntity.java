@@ -42,7 +42,7 @@ public class BoardEntity {
 
     @Column(name = "register_date")
     @CreatedDate
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime registerDate;
 
     private String category;
