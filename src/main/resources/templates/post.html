@@ -5,13 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>게시판 홈</title>
   <style>
-    body {
-    font-family: Arial, sans-serif;
+    /* Body 스타일 */
+body {
     background-color: #222;
     color: #ddd;
+    font-family: Arial, sans-serif;
 }
 
+/* 로그인 버튼 스타일 */
 #login-button button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
     width : 95px;
     background-color: #333;
     color: #fff;
@@ -20,32 +25,39 @@
     margin-top: 10px;
     border-radius: 5px;
     cursor: pointer;
-    float: right;
+}
+
+/* 로고 스타일 */
+
+#logo {
+    text-align: center;
+    margin-top: 50px;
 }
 
 #logo h1 {
-    display: flex;
-    justify-content: center;
-    text-align: center;
     text-decoration: none;
     color: #fff;
     font-size: 50px;
-    font-family: 'Arial Black'
+    font-family: 'Arial Black';
+}
+
+/* 카테고리 선택 버튼 스타일 */
+#categories {
+    text-align: center; /* 내용을 수평으로 가운데 정렬 */
+    margin-top: 20px;
 }
 
 #categories button {
-        background-color: #007bff; /* 버튼 배경색 */
-        color: #fff; /* 버튼 글자색 */
-        border: none; /* 테두리 없음 */
-        padding: 10px 20px; /* 내부 여백 */
-        margin: 5px; /* 외부 여백 */
-        border-radius: 5px; /* 테두리 반경 */
-        cursor: pointer; /* 마우스 커서 포인터로 변경 */
+    background-color: #444;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block; /* 가로로 정렬하기 위해 인라인 블록 요소로 설정 */
 }
 
-#view {
-display: flex;
-}
 
 #author-views p {
     color: #bbb; /* 더 어두운 회색 */
@@ -59,6 +71,16 @@ display: flex;
         border-radius: 5px; /* 테두리 반경 */
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
     }
+
+    .content-top {
+display: flex;
+}
+
+.content-top .child {
+flex: 1;
+
+}
+
 
 #postTitle, #postContent {
     width: 100%; /* 입력 필드 폭 전체로 설정 */
@@ -103,6 +125,10 @@ display: flex;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
     }
 
+    .comment-btn {
+    display: flex;
+    }
+
     .comment-reg {
     display: flex;
     justify-content: space-between;
@@ -117,6 +143,33 @@ display: flex;
         background-color: #444; /* 배경색 */
         color: #ddd; /* 텍스트 색상 */
     }
+
+    .comment-content{
+      margin-top: 5px;
+      margin-bottom: 3px;
+    }
+
+    .comment-line {
+    border-top: 1px solid #444444;
+    margin-bottom: 5px;
+    }
+
+button[type="submit2"]
+    {
+        border: none; /* 테두리 없음 */
+        border-radius: 2px; /* 버튼 반경 */
+        cursor: pointer; /* 커서 포인터로 변경 */
+        margin-bottom: 10px;
+    }
+    .edit-btn {
+    background-color: #007bff; /* 제출 버튼 배경색 */
+    color: #fff; /* 제출 버튼 글꼴 색상 */
+    margin-right: 3px; /* 제출 버튼 오른쪽 여백 */
+}
+    .del-btn {
+    background-color: #6c757d; /* 취소 버튼 배경색 */
+    color: #fff; /* 취소 버튼 글꼴 색상 */
+}
 
   </style>
 </head>
@@ -154,12 +207,14 @@ display: flex;
 <!-- 게시글 정보 -->
 <div class="container">
   <!-- 작성자 및 조회수 -->
-  <div id="view">
-    <div>
-      <p><!-- 닉네임 --> 조회수: <!-- 조회수 --> </p>
+  <div class="content-top">
+    <div class="child left">
+      <p>닉네임 : <span th:text="${post.memberEntity.memberNickname}"></span></p>
     </div>
-    <div>
-      <p>카테고리: <span th:text="${post.category}"></span></p>
+    <div class="child center">
+      <p>카테고리 : <span th:text="${post.category}"></span></p></div>
+    <div class="child right">
+      <p>조회수 : <span th:text="${post.view}"></span></p>
     </div>
   </div>
 
@@ -190,16 +245,20 @@ display: flex;
 </div>
 
 <div class="container2">
-  <div class="card my-4" th:if="${comments != null and comments.size() != 0}">
+  <div th:if="${comments != null and comments.size() != 0}">
     <div th:each="comment : ${comments}">
-      <div class="media-body">
-        <p th:text="${comment.getContent()}" th:id="'comment-' + ${comment.getId()}">댓글</p>
-        <a class="btn edit-btn"
-           th:href="@{{id}/comment/{commentId}/update(id=${id}, commentId=${comment.getId()})}"
-           th:attr="data-id=${comment.getId()}" onclick="editComment(this)">수정</a>
-        <a class="btn del-btn"
-           th:href="@{{id}/comment/{commentId}/remove(id=${id}, commentId=${comment.getId()})}"
-           th:attr="data-id=${comment.getId()}" onclick="return confirm('삭제하시겠습니까?')">삭제</a>
+      <p class="comment-content" th:text="${comment.getContent()}"></p>
+      <div class="comment-line"></div>
+      <div class="comment-btn">
+        <!--        모달수정시작-->
+        <button type="submit2" onclick="openCommentUpdatePopup(${comment.getId()});"
+                class="btn edit-btn"><span
+            class="icons icon_modify">수정</span></button>
+        <!--        모달 수정끝-->
+        <button type="submit2" class="btn del-btn"
+                th:href="@{{id}/comment/{commentId}/remove(id=${id}, commentId=${comment.getId()})}"
+                th:attr="data-id=${comment.getId()}" onclick="return confirm('삭제하시겠습니까?')">삭제
+        </button>
       </div>
     </div>
   </div>
@@ -210,6 +269,93 @@ display: flex;
     <button type="submit" class="btn btn-primary">등록</button>
   </form>
 </div>
+<!--/* 댓글 수정 popup */-->
+<!--<div id="commentUpdatePopup" class="popLayer">-->
+<!--  <h3>댓글 수정</h3>-->
+<!--  <div class="pop_container">-->
+<!--    <table class="tb tb_row tl">-->
+<!--      <colgroup>-->
+<!--        <col style="width:30%;"/>-->
+<!--        <col style="width:70%;"/>-->
+<!--      </colgroup>-->
+<!--      <tbody>-->
+<!--      <tr>-->
+<!--        <th scope="row">내용<span class="es">필수 입력</span></th>-->
+<!--        <td><textarea id="modalContent" name="modalContent" cols="90" rows="10"-->
+<!--                      placeholder="수정할 내용을 입력해 주세요."></textarea></td>-->
+<!--      </tr>-->
+<!--      </tbody>-->
+<!--    </table>-->
+<!--    <p class="btn_set">-->
+<!--      <button type="button" id="commentUpdateBtn" class="btns btn_st2">수정</button>-->
+<!--      <button type="button" class="btns btn_bdr2" onclick="closeCommentUpdatePopup();">취소</button>-->
+<!--    </p>-->
+<!--  </div>-->
+<!--  <button type="button" class="btn_close" onclick="closeCommentUpdatePopup();"><span><i-->
+<!--      class="far fa-times-circle"></i></span></button>-->
+<!--</div>-->
+<!-- 모달 이벤트 처리 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+  // 댓글 수정 팝업 open
+function openCommentUpdatePopup(id) {
+
+    const postId = [[ ${post.id} ]];
+
+    $.ajax({
+        url : `/${postId}/comment/${id}/update`,
+        type : 'get',
+        dataType : 'json',
+        async : false,
+        success : function (response) {
+            document.getElementById('modalContent').value = response.content;
+            document.getElementById('commentUpdateBtn').setAttribute('onclick', `updateComment(${id})`);
+            layerPop('commentUpdatePopup');
+        },
+        error : function (request, status, error) {
+            console.log(error)
+        }
+    })
+}
+
+
+// 댓글 수정 팝업 close
+function closeCommentUpdatePopup() {
+    document.querySelectorAll('#modalContent').forEach(element => element.value = '');
+    document.getElementById('commentUpdateBtn').removeAttribute('onclick');
+    layerPopClose('commentUpdatePopup');
+}
+    // 댓글 수정
+    function updateComment(id) {
+
+        const content = document.getElementById('modalContent');
+        isValid(content, '수정할 내용');
+
+        const postId = [[ ${post.id} ]];
+        const params = {
+            id : id,
+            postId : postId,
+            content : content.value
+        }
+
+        $.ajax({
+            url : `/${postId}/comment/${id}/update`,
+            type : 'patch',
+            contentType : 'application/json; charset=utf-8',
+            dataType : 'json',
+            data : JSON.stringify(params),
+            async : false,
+            success : function (response) {
+                alert('수정되었습니다.');
+                closeCommentUpdatePopup();
+                findAllComment();
+            },
+            error : function (request, status, error) {
+                console.log(error)
+            }
+        })
+    }
+</script>
 
 </body>
 </html>

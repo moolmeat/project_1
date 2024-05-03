@@ -51,4 +51,13 @@ public class CommentService {
         commentRepository.deleteById(commentId);
     }
 
+    public CommentDTO findCommentById(Long id) {
+        CommentEntity commentEntity = commentRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 댓글입니다."));
+        CommentDTO commentDTO = new CommentDTO();
+        commentDTO.setId(commentEntity.getId());
+        commentDTO.setContent(commentEntity.getContent());
+        commentDTO.setBoardEntity(commentEntity.getBoardEntity());
+        return commentDTO;
+    }
+
 }
